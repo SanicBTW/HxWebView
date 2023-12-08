@@ -1,0 +1,15 @@
+-D HXCPP_M64
+-D windows
+-D desktop
+-D native
+-D HXCPP_CHECK_POINTER
+-D HXCPP_STACK_LINE
+-D no-deprecation-warnings
+-D no-console
+
+--class-path source
+--main Main
+--cpp bin/cpp/Release
+
+--cmd cd bin/cpp/Release/
+--cmd .\Main.exe

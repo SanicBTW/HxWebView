@@ -1,0 +1,14 @@
+{
+    "name": "HxWebView",
+    "url": "https://github.com/SanicBTW/HxWebView",
+    "license": "Apache",
+    "tags": ["haxe", "webview", "cpp", "binds", "bindings", "native", "desktop", "cross"],
+    "description": "Haxe cross-platform desktop bindings for webview.",
+    "version": "0.0.1",
+    "releasenote": "Initial release",
+    "contributors": ["SanicBTW"],
+    "classPath": "source",
+    "dependencies": {
+        "hxcpp": ""
+    }
+}

@@ -1,0 +1,49 @@
+<xml>
+
+    <pragma once="true" />
+
+    <files id="haxe">
+        <section if="windows">
+            <compilerflag value="-I${haxelib:HxWebView}/internal/windows" />
+        </section>
+
+        <compilerflag value="-I${haxelib:HxWebView}/internal/webview" />
+        <compilerflag value="-I${haxelib:HxWebView}" />
+    </files>
+
+    <files id="__main__">
+        <section if="windows">
+            <compilerflag value="-I${haxelib:HxWebView}/internal/windows" />
+        </section>
+
+        <compilerflag value="-I${haxelib:HxWebView}/internal/webview" />
+        <compilerflag value="-I${haxelib:HxWebView}" />
+    </files>
+
+    <section if="windows HXCPP_M64">
+        <copyFile name="WebView2Loader.dll" from="${haxelib:HxWebView}/internal/windows/x64" toolId="exe" overwrite="true" />
+        <copyFile name="EmbeddedBrowserWebView.dll" from="${haxelib:HxWebView}/internal/windows/x64" toolId="exe" overwrite="true" />
+    </section>
+
+    <section if="windows HXCPP_M32">
+        <copyFile name="WebView2Loader.dll" from="${haxelib:HxWebView}/internal/windows/x86" toolId="exe" overwrite="true" />
+        <copyFile name="EmbeddedBrowserWebView.dll" from="${haxelib:HxWebView}/internal/windows/x86" toolId="exe" overwrite="true" />
+    </section>
+
+    <target id="haxe">
+
+        <section if="windows">
+
+            <section if="HXCPP_M64">
+                <lib name="${haxelib:HxWebView}/internal/windows/x64/WebView2Loader.dll.lib"/>
+            </section>
+
+            <section if="HXCPP_M32">
+                <lib name="${haxelib:HxWebView}/internal/windows/x86/WebView2Loader.dll.lib"/>
+            </section>
+
+        </section>
+
+    </target>
+
+</xml>
