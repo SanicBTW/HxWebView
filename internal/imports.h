@@ -6,5 +6,5 @@
 #define WEBVIEW_MSWEBVIEW2_BUILTIN_IMPL 0
 #endif
 
-#include "webview/webview.h"
+#include "vendor/webview.h"
 #include "WebViewHelper.cpp"

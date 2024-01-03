@@ -4,8 +4,8 @@
     "license": "MIT",
     "tags": ["haxe", "webview", "cpp", "binds", "bindings", "native", "desktop", "cross"],
     "description": "Haxe cross-platform desktop bindings for webview.",
-    "version": "0.0.2",
-    "releasenote": "Added Linux support, fixed haxelib license, moved types to Webview from WVTypes and cleaner include.xml.",
+    "version": "0.0.3",
+    "releasenote": "Reduced library size by not cloning the whole webview repo, moved webview header to vendor.",
     "contributors": ["SanicBTW"],
     "classPath": "source",
     "dependencies": {
