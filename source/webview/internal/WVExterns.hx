@@ -3,7 +3,7 @@ package webview.internal;
 // WebViewExterns
 
 import cpp.ConstCharStar;
-import webview.internal.WVTypes;
+import webview.WebView;
 
 @:keep
 @:noPrivateAccess

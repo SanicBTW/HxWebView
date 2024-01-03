@@ -1,11 +1,11 @@
 {
     "name": "HxWebView",
     "url": "https://github.com/SanicBTW/HxWebView",
-    "license": "Apache",
+    "license": "MIT",
     "tags": ["haxe", "webview", "cpp", "binds", "bindings", "native", "desktop", "cross"],
     "description": "Haxe cross-platform desktop bindings for webview.",
-    "version": "0.0.1",
-    "releasenote": "Initial release",
+    "version": "0.0.2",
+    "releasenote": "Added Linux support, fixed haxelib license, moved types to Webview from WVTypes and cleaner include.xml.",
     "contributors": ["SanicBTW"],
     "classPath": "source",
     "dependencies": {

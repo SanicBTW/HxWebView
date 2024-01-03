@@ -1,0 +1,84 @@
+<xml>
+
+    <!-- Necessary flags and libs generated through pkg-config cflags libs gtk+-3.0 webkit2gtk-4.0 -->
+
+    <files id="haxe">
+        <compilerflag value="-I/usr/include/webkitgtk-4.0" />
+        <compilerflag value="-I/usr/include/gtk-3.0" />
+        <compilerflag value="-I/usr/include/pango-1.0" />
+        <compilerflag value="-I/usr/include/cairo" />
+        <compilerflag value="-I/usr/include/gdk-pixbuf-2.0" />
+        <compilerflag value="-I/usr/include/atk-1.0" />
+        <compilerflag value="-I/usr/include/freetype2" />
+        <compilerflag value="-I/usr/include/harfbuzz" />
+        <compilerflag value="-I/usr/include/libsoup-2.4" />
+        <compilerflag value="-I/usr/include/glib-2.0" />
+        <compilerflag value="-I/usr/lib/glib-2.0/include" />
+        <compilerflag value="-I/usr/include/cloudproviders" />
+        <compilerflag value="-I/usr/include/at-spi2-atk/2.0" />
+        <compilerflag value="-I/usr/include/at-spi-2.0" />
+        <compilerflag value="-I/usr/include/dbus-1.0" />
+        <compilerflag value="-I/usr/lib/dbus-1.0/include" />
+        <compilerflag value="-I/usr/include/fribidi" />
+        <compilerflag value="-I/usr/include/pixman-1" />
+        <compilerflag value="-I/usr/include/libpng16" />
+        <compilerflag value="-I/usr/include/gio-unix-2.0" />
+        <compilerflag value="-I/usr/include/libmount" />
+        <compilerflag value="-I/usr/include/blkid" />
+        <compilerflag value="-I/usr/include/libxml2" />
+        <compilerflag value="-I/usr/include/sysprof-6" />
+        <compilerflag value="-pthread" />
+    </files>
+
+    <files id="__main__">
+        <compilerflag value="-I/usr/include/webkitgtk-4.0" />
+        <compilerflag value="-I/usr/include/gtk-3.0" />
+        <compilerflag value="-I/usr/include/pango-1.0" />
+        <compilerflag value="-I/usr/include/cairo" />
+        <compilerflag value="-I/usr/include/gdk-pixbuf-2.0" />
+        <compilerflag value="-I/usr/include/atk-1.0" />
+        <compilerflag value="-I/usr/include/freetype2" />
+        <compilerflag value="-I/usr/include/harfbuzz" />
+        <compilerflag value="-I/usr/include/libsoup-2.4" />
+        <compilerflag value="-I/usr/include/glib-2.0" />
+        <compilerflag value="-I/usr/lib/glib-2.0/include" />
+        <compilerflag value="-I/usr/include/cloudproviders" />
+        <compilerflag value="-I/usr/include/at-spi2-atk/2.0" />
+        <compilerflag value="-I/usr/include/at-spi-2.0" />
+        <compilerflag value="-I/usr/include/dbus-1.0" />
+        <compilerflag value="-I/usr/lib/dbus-1.0/include" />
+        <compilerflag value="-I/usr/include/fribidi" />
+        <compilerflag value="-I/usr/include/pixman-1" />
+        <compilerflag value="-I/usr/include/libpng16" />
+        <compilerflag value="-I/usr/include/gio-unix-2.0" />
+        <compilerflag value="-I/usr/include/libmount" />
+        <compilerflag value="-I/usr/include/blkid" />
+        <compilerflag value="-I/usr/include/libxml2" />
+        <compilerflag value="-I/usr/include/sysprof-6" />
+        <compilerflag value="-pthread" />
+    </files>
+
+    <target id="haxe">
+        <lib name="-lwebkit2gtk-4.0" />
+        <lib name="-lgtk-3" />
+        <lib name="-lgdk-3" />
+        <lib name="-lz" />
+        <lib name="-lpangocairo-1.0" />
+        <lib name="-lpango-1.0" />
+        <lib name="-lharfbuzz" />
+        <lib name="-latk-1.0" />
+        <lib name="-lcairo-gobject" />
+        <lib name="-lcairo" />
+        <lib name="-lgdk_pixbuf-2.0" />
+        <lib name="-lsoup-2.4" />
+        <lib name="-lgmodule-2.0" />
+        <lib name="-lgio-2.0" />
+        <lib name="-ljavascriptcoregtk-4.0" />
+        <lib name="-lgobject-2.0" />
+        <lib name="-lglib-2.0" />
+
+        <compilerflag value="-Wl,--export-dynamic" />
+        <compilerflag value="-pthread" />
+    </target>
+
+</xml>

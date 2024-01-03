@@ -95,3 +95,13 @@ BOOL is_main_window(HWND handle)
     return GetWindow(handle, GW_OWNER) == (HWND)0 && IsWindowVisible(handle);
 }
 #endif
+
+// TODO
+#if defined(HX_LINUX)
+Dynamic find_main_window();
+
+Dynamic find_main_window()
+{
+    return 0;
+}
+#endif
