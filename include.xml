@@ -20,7 +20,10 @@
         <compilerflag value="-I${haxelib:HxWebView}" />
     </files>
 
-    <assets path="internal/windows/x64" rename="" if="HXCPP_M64" />
-    <assets path="internal/windows/x86" rename="" if="HXCPP_M32" />
+    <section if="windows">
+            <assets path="internal/windows/x64/" rename="" unless="32"" />
+            <assets path="internal/windows/x86" rename="" if="32" />
+    </section>
+
 
 </xml>
