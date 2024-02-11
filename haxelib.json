@@ -4,9 +4,9 @@
     "license": "MIT",
     "tags": ["haxe", "webview", "cpp", "binds", "bindings", "native", "desktop", "cross"],
     "description": "Haxe cross-platform desktop bindings for webview.",
-    "version": "0.0.3",
-    "releasenote": "Reduced library size by not cloning the whole webview repo, moved webview header to vendor.",
-    "contributors": ["SanicBTW"],
+    "version": "0.0.4",
+    "releasenote": "Lime support, HaxeFlixel example.",
+    "contributors": ["SanicBTW", "Vortex"],
     "classPath": "source",
     "dependencies": {
         "hxcpp": ""
