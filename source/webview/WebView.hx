@@ -15,12 +15,24 @@ class WebView
      * Depending on the platform, a GtkWindow, NSWindow or HWND pointer can be
      * passed on the window argument. 
      * 
+     * If the window handle is non-null, the webview 
+     * widget is embedded into the given window, and the
+     * caller is expected to assume responsibility for the window as well as
+     * application lifecycle
+     * 
      * Creation can fail for various reasons
      * such as when required runtime dependencies are missing or when window creation
      * fails.
      * 
+     * Remarks:
+     * - Win32: The function also accepts a pointer to HWND (Win32) in the window
+     * parameter for backward compatibility.
+     * - Win32/WebView2: CoInitializeEx should be called with
+     * COINIT_APARTMENTTHREADED before attempting to call this function with an
+     * existing window. Omitting this step may cause WebView2 initialization to fail.
+     * 
      * @param debug If true, developer tools will be enabled (if the platform supports them).
-     * @param window [Pointer to the native window handle (NOT WORKING)] If a pointer is passed, then child webview will be embedded into the given parent window, otherwise a new window is created.
+     * @param window [Pointer to the native window handle] If a pointer is passed, then child webview will be embedded into the given parent window, otherwise a new window is created.
      */
     public function new(debug:Bool = false, ?window:WindowPtr)
     {
@@ -84,13 +96,13 @@ class WebView
     }
 
     /**
-     * Returns a native window handle pointer.
+     * Returns the native handle of the window associated with the webview instance.
      * 
-     * When using a GTK backend the pointer is a GtkWindow pointer.
+     * When using a GTK backend the pointer is a GtkWindow handle.
      * 
-     * When using a Cocoa backend the pointer is a NSWindow pointer.
+     * When using a Cocoa backend the pointer is a NSWindow handle.
      * 
-     * When using a Win32 backend the pointer is a HWND pointer.
+     * When using a Win32 backend the pointer is a HWND handle.
      */
     public function getWindow():WindowPtr
     {
@@ -98,6 +110,19 @@ class WebView
             return null;
 
         return WVExterns.webview_get_window(handle);
+    }
+
+    /**
+     * Returns the native handle of choice
+     * 
+     * @since 0.11
+     */
+    public function getNativeHandle(kind:WebViewNativeHandleKind):WindowPtr
+    {
+        if (handle == null)
+            return null;
+
+        return WVExterns.webview_get_native_handle(handle, cast kind);
     }
 
     /**
@@ -260,6 +285,9 @@ class WebView
 
 // Moved types here to avoid doing import webview.internal.WVTypes
 
+// I learnt that a void pointer is a data type which acts like a dynamic and you need to cast it in need to retrieve the data 
+typedef WindowPtr = Pointer<CVoid>;
+
 // Holds the elements of a MAJOR.MINOR.PATCH version number.
 typedef WebViewVersion = 
 {
@@ -285,12 +313,6 @@ typedef WebViewInfo =
     var build_metadata:String;
 }
 
-// I learnt that a void pointer is a data type which acts like a dynamic and you need to cast it in need to retrieve the data 
-typedef WindowPtr = Pointer<CVoid>;
-
-// Used in webview_dispatch
-typedef DispatchFunc = (w:WindowPtr, arg:Dynamic)->Void;
-
 // Window size hints
 enum abstract WebViewSizeHint(Int) to Int from Int
 {
@@ -299,6 +321,31 @@ enum abstract WebViewSizeHint(Int) to Int from Int
     var MAX = 2;
     var FIXED = 3;
 }
+
+// Native handle kind. The actual type depends on the backend.
+// An integer enum for the cpp fix, check WebViewHelper.cpp.
+// @since 0.11
+enum abstract WebViewNativeHandleKind(Int) to Int from Int
+{
+    /**
+     * Top-level window. GtkWindow pointer (GTK), NSWindow pointer (Cocoa) or HWND (Win32).
+     */
+    var WEBVIEW_NATIVE_HANDLE_KIND_UI_WINDOW = 0;
+
+    /**
+     * Browser widget. GtkWidget pointer (GTK), NSView pointer (Cocoa) or HWND (Win32).
+     */
+    var WEBVIEW_NATIVE_HANDLE_KIND_UI_WIDGET = 1;
+
+    /**
+     * Browser controller. WebKitWebView pointer (WebKitGTK), WKWebView pointer (Cocoa/WebKit) or
+     * ICoreWebView2Controller pointer (Win32/WebView2).
+     */
+    var WEBVIEW_NATIVE_HANDLE_KIND_BROWSER_CONTROLLER = 2;
+}
+
+// Used in webview_dispatch
+typedef DispatchFunc = (w:WindowPtr, arg:Dynamic)->Void;
 
 // Used in webview_bind
 typedef BindFunc = (seq:String, req:String, arg:Dynamic)->Void;

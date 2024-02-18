@@ -36,6 +36,20 @@ Dynamic hx_webview_version()
     return out;
 }
 
+// Fix for webview_get_native_handle
+// Had to go with ints since I was breaking my head with the type of enum n shi (it was giving me ObjectPtr)
+void *hx_get_native_handle(webview_t w, int kind)
+{
+    switch (kind)
+    {
+        case 0: return webview_get_native_handle(w, WEBVIEW_NATIVE_HANDLE_KIND_UI_WINDOW);
+        case 1: return webview_get_native_handle(w, WEBVIEW_NATIVE_HANDLE_KIND_UI_WIDGET);
+        case 2: return webview_get_native_handle(w, WEBVIEW_NATIVE_HANDLE_KIND_BROWSER_CONTROLLER);
+        default: return nullptr;
+    }
+    return nullptr;
+}
+
 // Wrapper for webview_dispatch
 using hxDispatchFunc = std::function<void(webview_t, Dynamic)>;
 
