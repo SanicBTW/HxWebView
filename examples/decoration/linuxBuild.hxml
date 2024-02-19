@@ -1,0 +1,18 @@
+-D HXCPP_M64
+-D linux
+-D desktop
+-D native
+-D HXCPP_CHECK_POINTER
+-D HXCPP_STACK_LINE
+-D no-deprecation-warnings
+-D no-console
+-D NO_PRECOMPILED_HEADERS
+
+--library HxWebView
+
+--class-path source
+--main Decoration
+--cpp bin/cpp/
+
+--cmd cd bin/cpp/
+--cmd ./Decoration

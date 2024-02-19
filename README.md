@@ -1,5 +1,11 @@
 <img src="https://avatars.githubusercontent.com/u/4168812?s=200&v=4" align="right" width="150" height="150">
 
+# Branch: dev-0.1.0
+
+This branch is used for developing the upcoming 0.1.0 release of HxWebView without disturbing the master branch
+
+The header file used (webview.h) won't update unless the master branch does
+
 # HxWebView
 
 Haxe/hxcpp @:native bindings for [webview](https://github.com/webview/webview).
@@ -20,6 +26,11 @@ or with git for the latest potentially unstable updates.
 ```
 haxelib git HxWebView https://github.com/SanicBTW/HxWebView.git
 ```
+
+## Warning
+The 0.1.0 release will be a whole rewrite of the library including better code, more features and more control over the WebView window.
+
+This WILL change the way of using the library on some cases but displaying a basic Window for a page should be kept simple.
 
 ## Linux Usage
 In order to use the library in Linux you must have `webkit2gtk` and `gtk3` installed in your system.

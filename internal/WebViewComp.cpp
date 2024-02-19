@@ -3,13 +3,7 @@
 #include <string>
 #include "./vendor/webview.h"
 
-#if defined(_WIN32)
-#include <windef.h>
-#include <winuser.h>
-#include <processthreadsapi.h>
-#endif
-
-// Custom made to wrap WebView stuff 'n more for Haxe Externs
+// Custom made to wrap WebView stuff 'n more for Haxe Externs, basically a layer for making the code compatible without any issue
 
 // Fix for webview_version
 Dynamic hx_webview_version()
@@ -71,51 +65,3 @@ void hx_webview_bind(webview_t w, const char *name, hxBindFunc fn, Dynamic farg)
         }, 
         static_cast<void *>(&farg));
 }
-
-// Get the Parent/Main Window from current process, origin https://stackoverflow.com/a/21767578
-#if defined(_WIN32)
-struct HANDLE_DATA
-{
-    DWORD process_id;
-    HWND window_handle;
-};
-
-HWND find_main_window();
-BOOL CALLBACK enum_windows_callback(HWND handle, LPARAM lParam);
-BOOL is_main_window(HWND handle);
-
-HWND find_main_window()
-{
-    HANDLE_DATA data;
-    data.process_id = GetCurrentProcessId();
-    data.window_handle = 0;
-    EnumWindows(enum_windows_callback, (LPARAM)&data);
-    return data.window_handle;
-}
-
-BOOL CALLBACK enum_windows_callback(HWND handle, LPARAM lParam)
-{
-    HANDLE_DATA& data = *(HANDLE_DATA*)lParam;
-    DWORD process_id;
-    GetWindowThreadProcessId(handle, &process_id);
-    if (data.process_id != process_id || !is_main_window(handle))
-        return TRUE;
-    data.window_handle = handle;
-    return FALSE;
-}
-
-BOOL is_main_window(HWND handle)
-{
-    return GetWindow(handle, GW_OWNER) == (HWND)0 && IsWindowVisible(handle);
-}
-#endif
-
-// TODO
-#if defined(HX_LINUX)
-Dynamic find_main_window();
-
-Dynamic find_main_window()
-{
-    return 0;
-}
-#endif

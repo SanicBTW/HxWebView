@@ -1,0 +1,17 @@
+-D HXCPP_M64
+-D windows
+-D desktop
+-D native
+-D HXCPP_CHECK_POINTER
+-D HXCPP_STACK_LINE
+-D no-deprecation-warnings
+-D no-console
+
+--library HxWebView
+
+--class-path source
+--main TaskbarHint
+--cpp bin/cpp/
+
+--cmd cd bin/cpp/
+--cmd .\TaskbarHint.exe

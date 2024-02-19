@@ -7,4 +7,4 @@
 #endif
 
 #include "vendor/webview.h"
-#include "WebViewHelper.cpp"
+#include "WebViewComp.cpp"

@@ -5,6 +5,7 @@ import cpp.Pointer;
 import cpp.Void as CVoid;
 
 // Wrapper class for the externs
+@:allow(webview.WindowUtils)
 class WebView
 {
     private var handle:Null<WindowPtr> = null;
@@ -273,14 +274,6 @@ class WebView
      */
     public static function version():WebViewInfo
         return WVExterns.webview_version();
-
-    /**
-     * Used to get the Main Window from the current process.
-     * 
-     * This behaves almost like webview.getWindow() if the WebView is a standalone Window.
-     */
-    public static function getMainWindow():WindowPtr
-        return WVExterns.find_main_window();
 }
 
 // Moved types here to avoid doing import webview.internal.WVTypes

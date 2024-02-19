@@ -67,9 +67,4 @@ extern class WVExterns
     // @since 0.10
     @:native('hx_webview_version')
     private static function webview_version():WebViewInfo;
-
-    // Can be found on WebViewHelper.cpp
-    // Used to get the Main Window from the process, this behaves almost like webview_get_window if the WebView is a standalone Window
-    @:native('find_main_window')
-    private static function find_main_window():WindowPtr;
 }
