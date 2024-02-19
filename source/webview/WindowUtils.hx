@@ -95,6 +95,66 @@ class WindowUtils
     {
         Externs.set_window_taskbar_hint(w.handle, state);
     }
+
+    /**
+     * Used to add a destroy signal and set the WebView Window internal destroyed flag.
+     * 
+     * Win32 API - Not Implemented
+     * 
+     * Gtk API - Implemented fully working
+     * 
+     * Cocoa API - Not Implemented (Not maintained by me)
+     */
+    public static function addDestroySignal(w:WebView):Void
+    {
+        Externs.add_destroy_signal(w.handle);
+    }
+
+    /**
+     * Used to get if there are pending events.
+     * 
+     * Win32 API - Not Implemented
+     * 
+     * Gtk API - Implemented fully working
+     * 
+     * Cocoa API - Not Implemented (Not maintained by me)
+     */
+    public static function eventsPending(w:WebView):Bool
+    {
+        return Externs.events_pending();
+    }
+
+    /**
+     * Used to run a Main Loop Iteration to process events and more.
+     * 
+     * State should be true if you want GTK+ to block if no events are pending.
+     * 
+     * Win32 API - Not Implemented
+     * 
+     * Gtk API - Implemented fully working
+     * 
+     * Cocoa API - Not Implemented (Not maintained by me)
+     */
+    public static function process(w:WebView, state:Bool = false):Void
+    {
+        Externs.run_main_iteration(state);
+    }
+
+    /**
+     * Used to check if the WebView Window is still open.
+     * 
+     * State should be true if you want GTK+ to block if no events are pending.
+     * 
+     * Win32 API - Not Implemented
+     * 
+     * Gtk API - Implemented fully working
+     * 
+     * Cocoa API - Not Implemented (Not maintained by me)
+     */
+    public static function isOpen(w:WebView):Bool
+    {
+        return Externs.is_open();
+    }
 }
 
 @:keep
@@ -120,6 +180,18 @@ private extern class Externs
     // Used to set the Window Taskbar Visibility
     @:native("set_window_taskbar_hint")
     public static function set_window_taskbar_hint(w:WindowPtr, state:Bool):Void;
+
+    @:native("add_destroy_signal")
+    public static function add_destroy_signal(w:WindowPtr):Void;
+
+    @:native("events_pending")
+    public static function events_pending():Bool;
+
+    @:native("run_main_iteration")
+    public static function run_main_iteration(state:Bool):Void;
+
+    @:native("is_open")
+    public static function is_open():Bool;
 
     // Used to get the Main Window from the process, this behaves almost like webview_get_window if the WebView is a standalone Window
     @:native('find_main_window')

@@ -61,12 +61,19 @@ Dynamic find_main_window(); //TODO
 
 // https://docs.gtk.org/gtk3/index.html?q=gtk_window_set_
 // https://docs.gtk.org/gtk3/index.html?q=gtk_window_get_
+// https://docs.gtk.org/gtk3/index.html?q=gtk_main
 
 Dynamic get_window_position(webview_t w); // https://docs.gtk.org/gtk3/method.Window.get_position.html
 void set_window_position(webview_t w, int newX, int newY); // https://docs.gtk.org/gtk3/method.Window.move.html there is https://docs.gtk.org/gtk3/method.Window.set_position.html but seems fixed positions
 void set_window_decoration(webview_t w, bool state); // https://docs.gtk.org/gtk3/method.Window.set_decorated.html
 void set_window_topmost(webview_t w, bool state); // https://docs.gtk.org/gtk3/method.Window.set_keep_above.html called topmost for standards
 void set_window_taskbar_hint(webview_t w, bool state); // https://docs.gtk.org/gtk3/method.Window.set_skip_taskbar_hint.html
+void add_destroy_signal(webview_t w); // Should be called to add the signal listener for window destroy, thus being able to check if the window is destroyed
+bool events_pending(); // https://docs.gtk.org/gtk3/func.events_pending.html
+void run_main_iteration(bool state); // https://docs.gtk.org/gtk3/func.main_iteration_do.html
+bool is_open(webview_t w); // https://docs.gtk.org/gdk3/method.Window.is_destroyed.html
+
+bool is_destroyed = false;
 
 Dynamic find_main_window()
 {
@@ -104,5 +111,29 @@ void set_window_topmost(webview_t w, bool state)
 void set_window_taskbar_hint(webview_t w, bool state)
 {
     gtk_window_set_skip_taskbar_hint(GTK_WINDOW(webview_get_window(w)), (gboolean)state);
+}
+
+void add_destroy_signal(webview_t w)
+{
+    g_signal_connect(GTK_WINDOW(webview_get_window(w)), "delete_event", G_CALLBACK(+[](GtkWidget *, gpointer arg)
+    {
+        is_destroyed = true;
+    }), NULL);
+}
+
+bool events_pending()
+{
+    return (bool)gtk_events_pending();
+}
+
+void run_main_iteration(bool state)
+{
+    gtk_main_iteration_do((gboolean)state);
+}
+
+bool is_open()
+{
+    // this will return false if the window is not destroyed, so we return true to indicate that its still open
+    return !is_destroyed;
 }
 #endif
