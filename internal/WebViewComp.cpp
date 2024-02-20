@@ -1,8 +1,3 @@
-#include <hxcpp.h>
-#include <hxString.h>
-#include <string>
-#include "./vendor/webview.h"
-
 // Custom made to wrap WebView stuff 'n more for Haxe Externs, basically a layer for making the code compatible without any issue
 
 // Fix for webview_version

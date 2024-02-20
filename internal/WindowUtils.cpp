@@ -1,6 +1,3 @@
-#include <hxcpp.h>
-#include <hxString.h>
-
 #if defined(_WIN32)
 #include <windows.h>
 #include <processthreadsapi.h>

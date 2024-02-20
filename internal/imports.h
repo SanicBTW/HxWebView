@@ -1,5 +1,9 @@
 #pragma once
 
+#include <hxcpp.h>
+#include <hxString.h>
+#include <string>
+
 #if defined(_WIN32)
 #include "windows/WebView2EnvironmentOptions.h"
 #include "windows/WebView2.h"

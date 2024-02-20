@@ -35,8 +35,6 @@ In order to use the library in Linux you must have `webkit2gtk` and `gtk3` insta
 
 You can check [this](https://github.com/webview/webview?tab=readme-ov-file#linux-and-bsd) file to see the specific name libraries for your distro.
 
-You MUST include `NO_PRECOMPILED_HEADERS` to your defines in order to compile without any error.
-
 ### Regarding embedding
 With the current header file, you should be able to embed the WebView into an existing window in any platform but it requires using widgets.
 

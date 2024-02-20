@@ -6,7 +6,6 @@
 -D HXCPP_STACK_LINE
 -D no-deprecation-warnings
 -D no-console
--D NO_PRECOMPILED_HEADERS
 
 --class-path source
 --main Main

@@ -75,35 +75,17 @@ typedef DispatchFunc = (w:WindowPtr, arg:Dynamic)->Void;
 // Used in webview_bind
 typedef BindFunc = (seq:String, req:String, arg:Dynamic)->Void;
 
-typedef Properties =
-{
-    private var handle:Null<WindowPtr>;
-    var x:Int;
-    var y:Int;
-    var width:Int;
-    var height:Int;
-    var destroyed:Bool;
-}
-
-typedef WindowPosition =
-{
-    var x:Int;
-    var y:Int;
-}
-
 // Wrapper class for the externs
 class WebView
 {
-    /// WEBVIEW
+    /// Window Properties
+    private var handle:Null<WindowPtr> = null;
+    private var x:Int = 0;
+    private var y:Int = 0;
+    private var width:Int = 0;
+    private var height:Int = 0;
 
-    public var properties:Properties = {
-        handle: null,
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
-        destroyed: false
-    };
+    /// WEBVIEW
 
     /**
      * Creates a new webview instance.
@@ -132,9 +114,9 @@ class WebView
      */
     public function new(debug:Bool = false, ?window:WindowPtr)
     {
-        properties.handle = Externs.webview_create(debug ? 1 : 0, window);
+        handle = Externs.webview_create(debug ? 1 : 0, window);
 
-        if (properties.handle == null)
+        if (handle == null)
         {
             trace('Failed to create a WebView');
             return;
@@ -146,10 +128,10 @@ class WebView
      */
     public function destroy():Void
     {
-        if (properties.handle == null)
+        if (handle == null)
             return;
 
-        Externs.webview_destroy(properties.handle);
+        Externs.webview_destroy(handle);
     }
 
     /**
@@ -159,10 +141,10 @@ class WebView
      */
     public function run():Void
     {
-        if (properties.handle == null)
+        if (handle == null)
             return;
 
-        Externs.webview_run(properties.handle);
+        Externs.webview_run(handle);
     }
 
     /**
@@ -172,10 +154,10 @@ class WebView
      */
     public function terminate():Void
     {
-        if (properties.handle == null)
+        if (handle == null)
             return;
 
-        Externs.webview_terminate(properties.handle);
+        Externs.webview_terminate(handle);
     }
 
     /**
@@ -185,10 +167,10 @@ class WebView
      */
     public function dispatch(fn:DispatchFunc, arg:Dynamic):Void
     {
-        if (properties.handle == null)
+        if (handle == null)
             return;
 
-        Externs.webview_dispatch(properties.handle, fn, arg);
+        Externs.webview_dispatch(handle, fn, arg);
     }
 
     /**
@@ -202,10 +184,10 @@ class WebView
      */
     public function getWindow():WindowPtr
     {
-        if (properties.handle == null)
+        if (handle == null)
             return null;
 
-        return Externs.webview_get_window(properties.handle);
+        return Externs.webview_get_window(handle);
     }
 
     /**
@@ -215,11 +197,11 @@ class WebView
      */
     public function getNativeHandle(kind:WebViewNativeHandleKind):WindowPtr
     {
-        if (properties.handle == null)
+        if (handle == null)
             return null;
 
         return null;
-        //return Externs.webview_get_native_handle(properties.handle, kind);
+        //return Externs.webview_get_native_handle(handle, kind);
     }
 
     /**
@@ -229,10 +211,10 @@ class WebView
      */
     public function setTitle(title:String):Void
     {
-        if (properties.handle == null)
+        if (handle == null)
             return;
 
-        Externs.webview_set_title(properties.handle, title);
+        Externs.webview_set_title(handle, title);
     }
 
     /**
@@ -242,13 +224,13 @@ class WebView
      */
     public function setSize(width:Int, height:Int, hints:WebViewSizeHint):Void
     {
-        if (properties.handle == null || width <= 0 && height <= 0)
+        if (handle == null || width <= 0 && height <= 0)
             return;
 
-        properties.width = width;
-        properties.height = height;
+        this.width = width;
+        this.height = height;
 
-        Externs.webview_set_size(properties.handle, width, height, hints);
+        Externs.webview_set_size(handle, width, height, hints);
     }
 
     /**
@@ -267,10 +249,10 @@ class WebView
      */
     public function navigate(url:String):Void
     {
-        if (properties.handle == null)
+        if (handle == null)
             return;
 
-        Externs.webview_navigate(properties.handle, url);
+        Externs.webview_navigate(handle, url);
     }
 
     /**
@@ -285,10 +267,10 @@ class WebView
      */
     public function setHTML(html:String):Void
     {
-        if (properties.handle == null)
+        if (handle == null)
             return;
 
-        Externs.webview_set_html(properties.handle, html);
+        Externs.webview_set_html(handle, html);
     }
 
     /**
@@ -300,10 +282,10 @@ class WebView
      */
     public function init(js:String):Void
     {
-        if (properties.handle == null)
+        if (handle == null)
             return;
 
-        Externs.webview_init(properties.handle, js);
+        Externs.webview_init(handle, js);
     }
 
     /**
@@ -315,10 +297,10 @@ class WebView
      */
     public function eval(js:String):Void
     {
-        if (properties.handle == null)
+        if (handle == null)
             return;
 
-        Externs.webview_eval(properties.handle, js);
+        Externs.webview_eval(handle, js);
     }
 
     /**
@@ -332,10 +314,10 @@ class WebView
      */
     public function bind(name:String, fn:BindFunc, arg:Dynamic):Void
     {
-        if (properties.handle == null)
+        if (handle == null)
             return;
 
-        Externs.webview_bind(properties.handle, name, fn, arg);
+        Externs.webview_bind(handle, name, fn, arg);
     }
 
     /**
@@ -343,10 +325,10 @@ class WebView
      */
     public function unbind(name:String):Void
     {
-        if (properties.handle == null)
+        if (handle == null)
             return;
 
-        Externs.webview_unbind(properties.handle, name);
+        Externs.webview_unbind(handle, name);
     }
 
     /**
@@ -361,10 +343,10 @@ class WebView
      */
     public function resolve(seq:String, status:Int, result:String):Void
     {
-        if (properties.handle == null)
+        if (handle == null)
             return;
 
-        Externs.webview_return(properties.handle, seq, status, result);
+        Externs.webview_return(handle, seq, status, result);
     }
 
     /**
@@ -395,9 +377,9 @@ class WebView
      * 
      * Cocoa API - Not Implemented (Not maintained by me)
      */
-    public function getWindowPosition():WindowPosition
+    public function getWindowPosition():{x:Int, y:Int}
     {
-        return Externs.get_window_position(properties.handle);
+        return Externs.get_window_position(handle);
     }
 
     /**
@@ -411,7 +393,7 @@ class WebView
      */
     public function setWindowPosition(newX:Int, newY:Int):Void
     {
-        Externs.set_window_position(properties.handle, newX, newY);
+        Externs.set_window_position(handle, newX, newY);
     }
 
     /**
@@ -425,7 +407,7 @@ class WebView
      */
     public function setWindowDecoration(state:Bool):Void
     {
-        Externs.set_window_decoration(properties.handle, state);
+        Externs.set_window_decoration(handle, state);
     }
 
     /**
@@ -439,7 +421,7 @@ class WebView
      */
     public function setWindowTopmost(state:Bool):Void
     {
-        Externs.set_window_topmost(properties.handle, state);
+        Externs.set_window_topmost(handle, state);
     }
 
     /**
@@ -453,7 +435,7 @@ class WebView
      */
     public function setWindowTaskbarHint(state:Bool):Void
     {
-        Externs.set_window_taskbar_hint(properties.handle, state);
+        Externs.set_window_taskbar_hint(handle, state);
     }
 
     /**
@@ -467,7 +449,7 @@ class WebView
      */
     public function addDestroySignal():Void
     {
-        Externs.add_destroy_signal(properties.handle);
+        Externs.add_destroy_signal(handle);
     }
 
     /**
@@ -546,10 +528,8 @@ private extern class Externs
 
     // Returns a native handle of choice.
     // @since 0.11
-    #if false
     @:native('hx_get_native_handle')
     public static function webview_get_native_handle(w:WindowPtr, kind:WebViewNativeHandleKind):WindowPtr;
-    #end
 
     @:native('webview_set_title')
     public static function webview_set_title(w:WindowPtr, title:ConstCharStar):Void;
@@ -590,7 +570,7 @@ private extern class Externs
 
     // Used to retrieve the Window Position
     @:native("get_window_position")
-    public static function get_window_position(w:WindowPtr):WindowPosition;
+    public static function get_window_position(w:WindowPtr):{x:Int, y:Int};
 
     // Used to set the Window Position
     @:native('set_window_position')

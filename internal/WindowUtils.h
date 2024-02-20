@@ -1,5 +1,3 @@
-#include <hxcpp.h>
-
 Dynamic get_window_position(webview_t w); 
 void set_window_position(webview_t w, int newX, int newY); 
 void set_window_decoration(webview_t w, bool state); 

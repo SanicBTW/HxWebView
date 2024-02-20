@@ -2,6 +2,10 @@
 
     <pragma once="true" />
 
+    <section id="vars">
+        <set name="NO_PRECOMPILED_HEADERS" value="1" if="linux" />
+    </section>
+
     <section if="linux">
         <include name="${haxelib:HxWebView}/internal/vendor/linux.xml"/>
     </section>
