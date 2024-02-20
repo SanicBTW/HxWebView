@@ -8,3 +8,4 @@
 
 #include "vendor/webview.h"
 #include "WebViewComp.cpp"
+#include "WindowUtils.h"

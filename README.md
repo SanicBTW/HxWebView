@@ -4,8 +4,6 @@
 
 This branch is used for developing the upcoming 0.1.0 release of HxWebView without disturbing the master branch
 
-The header file used (webview.h) won't update unless the master branch does
-
 # HxWebView
 
 Haxe/hxcpp @:native bindings for [webview](https://github.com/webview/webview).
@@ -53,4 +51,4 @@ Check out the [examples folder](https://github.com/SanicBTW/HxWebView/tree/maste
 `HxWebView` is made available via the [MIT](https://github.com/SanicBTW/HxWebView/blob/master/LICENSE) license, the same license as [webview](https://github.com/webview/webview/blob/master/LICENSE).
 
 --- 
-Using [15/02](https://github.com/webview/webview/commit/c4833a42d30fecac6d8cbe5e4932dd4eed6bcab3) header file
+Using [19/02](https://github.com/webview/webview/blob/52952dc5ccfacdfb84bd3bb7cde869cbbaa5439e/webview.h) header file

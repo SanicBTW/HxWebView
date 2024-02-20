@@ -1,11 +1,8 @@
 #include <hxcpp.h>
 #include <hxString.h>
-#include <string>
-#include "./vendor/webview.h"
 
 #if defined(_WIN32)
-#include <windef.h>
-#include <winuser.h>
+#include <windows.h>
 #include <processthreadsapi.h>
 #endif
 
@@ -18,8 +15,10 @@
 
 // File to add Window Utilities for controlling the WebView Window
 
-// Get the Parent/Main Window from current process, origin https://stackoverflow.com/a/21767578
+bool is_destroyed = false;
+
 #if defined(_WIN32)
+// Get the Parent/Main Window from current process, origin https://stackoverflow.com/a/21767578
 struct HANDLE_DATA
 {
     DWORD process_id;
@@ -54,6 +53,63 @@ BOOL is_main_window(HWND handle)
 {
     return GetWindow(handle, GW_OWNER) == (HWND)0 && IsWindowVisible(handle);
 }
+
+Dynamic get_window_position(webview_t w)
+{
+    RECT rect;
+    BOOL res = GetWindowRect((HWND)webview_get_window(w), &rect);
+    if (res == 0)
+    {
+        rect = {
+            0, // left
+            0, // top
+            0, // right
+            0 // bottom
+        };
+    }
+
+    hx::Anon windowPos = hx::Anon_obj::Create();
+
+        windowPos->Add(HX_CSTRING("x"), (int)rect.left);
+        windowPos->Add(HX_CSTRING("y"), (int)rect.top);
+
+    return windowPos;
+}
+
+void set_window_position(webview_t w, int newX, int newY)
+{
+    return;
+}
+
+void set_window_decoration(webview_t w, bool state)
+{
+    return;
+}
+
+void set_window_topmost(webview_t w, bool state)
+{
+    return;
+}
+
+void set_window_taskbar_hint(webview_t w, bool state)
+{
+    return;
+}
+
+void add_destroy_signal(webview_t w)
+{
+    return;
+}
+
+bool events_pending()
+{
+    return false;
+}
+
+void run_main_iteration(bool state)
+{
+    return;
+}
 #endif
 
 #if defined(HX_LINUX)
@@ -63,24 +119,12 @@ Dynamic find_main_window(); //TODO
 // https://docs.gtk.org/gtk3/index.html?q=gtk_window_get_
 // https://docs.gtk.org/gtk3/index.html?q=gtk_main
 
-Dynamic get_window_position(webview_t w); // https://docs.gtk.org/gtk3/method.Window.get_position.html
-void set_window_position(webview_t w, int newX, int newY); // https://docs.gtk.org/gtk3/method.Window.move.html there is https://docs.gtk.org/gtk3/method.Window.set_position.html but seems fixed positions
-void set_window_decoration(webview_t w, bool state); // https://docs.gtk.org/gtk3/method.Window.set_decorated.html
-void set_window_topmost(webview_t w, bool state); // https://docs.gtk.org/gtk3/method.Window.set_keep_above.html called topmost for standards
-void set_window_taskbar_hint(webview_t w, bool state); // https://docs.gtk.org/gtk3/method.Window.set_skip_taskbar_hint.html
-void add_destroy_signal(webview_t w); // Should be called to add the signal listener for window destroy, thus being able to check if the window is destroyed
-bool events_pending(); // https://docs.gtk.org/gtk3/func.events_pending.html
-void run_main_iteration(bool state); // https://docs.gtk.org/gtk3/func.main_iteration_do.html
-bool is_open(webview_t w); // https://docs.gtk.org/gdk3/method.Window.is_destroyed.html
-
-bool is_destroyed = false;
-
 Dynamic find_main_window()
 {
     return 0;
 }
 
-Dynamic get_window_position(webview_t w)
+Dynamic get_window_position(webview_t w) // https://docs.gtk.org/gtk3/method.Window.get_position.html
 {
     gint wX, wY;
     gtk_window_get_position(GTK_WINDOW(webview_get_window(w)), &wX, &wY);
@@ -93,27 +137,27 @@ Dynamic get_window_position(webview_t w)
     return windowPos;
 }
 
-void set_window_position(webview_t w, int newX, int newY)
+void set_window_position(webview_t w, int newX, int newY) // https://docs.gtk.org/gtk3/method.Window.move.html there is https://docs.gtk.org/gtk3/method.Window.set_position.html but seems fixed positions
 {
     gtk_window_move(GTK_WINDOW(webview_get_window(w)), (gint)newX, (gint)newY);
 }
 
-void set_window_decoration(webview_t w, bool state)
+void set_window_decoration(webview_t w, bool state) // https://docs.gtk.org/gtk3/method.Window.set_decorated.html
 {
     gtk_window_set_decorated(GTK_WINDOW(webview_get_window(w)), (gboolean)state);
 }
 
-void set_window_topmost(webview_t w, bool state)
+void set_window_topmost(webview_t w, bool state) // https://docs.gtk.org/gtk3/method.Window.set_keep_above.html called topmost for standards
 {
     gtk_window_set_keep_above(GTK_WINDOW(webview_get_window(w)), (gboolean)state);
 }
 
-void set_window_taskbar_hint(webview_t w, bool state)
+void set_window_taskbar_hint(webview_t w, bool state) // https://docs.gtk.org/gtk3/method.Window.set_skip_taskbar_hint.html
 {
     gtk_window_set_skip_taskbar_hint(GTK_WINDOW(webview_get_window(w)), (gboolean)state);
 }
 
-void add_destroy_signal(webview_t w)
+void add_destroy_signal(webview_t w) // Should be called to add the signal listener for window destroy, thus being able to check if the window is destroyed
 {
     g_signal_connect(GTK_WINDOW(webview_get_window(w)), "delete_event", G_CALLBACK(+[](GtkWidget *, gpointer arg)
     {
@@ -121,19 +165,19 @@ void add_destroy_signal(webview_t w)
     }), NULL);
 }
 
-bool events_pending()
+bool events_pending() // https://docs.gtk.org/gtk3/func.events_pending.html
 {
     return (bool)gtk_events_pending();
 }
 
-void run_main_iteration(bool state)
+void run_main_iteration(bool state) // https://docs.gtk.org/gtk3/func.main_iteration_do.html
 {
     gtk_main_iteration_do((gboolean)state);
 }
+#endif
 
 bool is_open()
 {
     // this will return false if the window is not destroyed, so we return true to indicate that its still open
     return !is_destroyed;
 }
-#endif
