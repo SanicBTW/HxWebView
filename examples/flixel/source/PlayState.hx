@@ -4,12 +4,11 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import lime.app.Application;
-import sys.thread.Thread;
 import webview.WebView;
 
 class PlayState extends FlxState
 {
+	var w:WebView = new WebView(#if debug true #end);
 	private var head:FlxText;
 	private var body:FlxText;
 	private var spinning:FlxSprite;
@@ -44,36 +43,20 @@ class PlayState extends FlxState
 
 	override public function create()
 	{
-		Thread.createWithEventLoop(() ->
+		// When running on a thread using the manual loop, the game will eventually stop updating, dispatching a bind (?) will start the update cycle again
+		// This behaviour is kind of weird
+		w.setTitle("HxWebView x HaxeFlixel - WebView");
+		w.setSize(480, 320, NONE);
+		w.setHTML(html);
+		w.addDestroySignal();
+
+		w.bind("callOnGame", (seq, req, arg) ->
 		{
-			var w:WebView = new WebView(#if debug true #end);
+			var args:Array<String> = req.substring(1, req.length - 1).split(",");
+			body.text = formatString(args[0]);
 
-			w.setTitle("HxWebView x HaxeFlixel - WebView");
-			w.setSize(480, 320, NONE);
-			w.setHTML(html);
-
-			Application.current.onExit.add((_) ->
-			{
-				w.terminate();
-				w.destroy();
-			});
-
-			// Little note, you have to run the webview thread in order to work with binds and more stuff, basic operations like
-			// navigating to a webpage should work without the need to create a thread
-			// but if you want to manipulate variables from the main thread you will need to
-			// create a thread and run the webview thread inside of it to avoid "Critical Error: Allocating from a GC-free thread"
-			// also this approach isn't working correctly at all since it freezes after a couple of seconds
-
-			w.bind("callOnGame", (seq, req, arg) ->
-			{
-				var args:Array<String> = req.substring(1, req.length - 1).split(",");
-				body.text = formatString(args[0]);
-
-				w.resolve(seq, 0, "");
-			}, null);
-
-			w.run();
-		});
+			w.resolve(seq, 0, "");
+		}, null);
 
 		add(spinning = new FlxSprite(0, 0).makeGraphic(100, 100, FlxColor.WHITE));
 		spinning.screenCenter();
@@ -89,6 +72,12 @@ class PlayState extends FlxState
 		super.update(elapsed);
 
 		spinning.angle += Math.sin((Math.PI * (360 * elapsed)) / 360) * 50;
+
+		// The window won't close until the Main Window does (Will fix this later)
+		// It will run at about 12FPS
+		if (w.isOpen())
+			if (w.eventsPending())
+				w.process();
 	}
 
 	// Used to format arguments passed from the WebView
