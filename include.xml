@@ -13,10 +13,8 @@
     <section if="windows">
         <include name="${haxelib:HxWebView}/internal/vendor/windows.xml"/>
         <assets path="internal/windows/x64/" rename="" unless="HXCPP_M32" exclude="WebView2Loader.dll.lib" />
-        <assets path="internal/windows/EBWebView/x64/" unless="HXCPP_M32" />
 
         <assets path="internal/windows/x86/" rename="" if="HXCPP_M32" exclude="WebView2Loader.dll.lib" />
-        <assets path="internal/windows/EBWebView/x86/"  if="HXCPP_M32" />
     </section>
 
     <files id="haxe">
