@@ -371,11 +371,9 @@ class WebView
     /**
      * Used to get the WebView Window Position.
      * 
-     * Win32 API - Not Implemented
+     * Win32 API and GTK API - Fully working
      * 
-     * Gtk API - Implemented fully working
-     * 
-     * Cocoa API - Not Implemented (Not maintained by me)
+     * Cocoa API - Not Implemented
      */
     public function getWindowPosition():{x:Int, y:Int}
     {
@@ -385,11 +383,9 @@ class WebView
     /**
      * Used to set the WebView Window Position.
      * 
-     * Win32 API - Not Implemented
+     * Win32 API and GTK API - Fully working (Windows pending DPI Awareness)
      * 
-     * Gtk API - Implemented fully working
-     * 
-     * Cocoa API - Not Implemented (Not maintained by me)
+     * Cocoa API - Not Implemented
      */
     public function setWindowPosition(newX:Int, newY:Int):Void
     {
@@ -399,11 +395,9 @@ class WebView
     /**
      * Used to set the WebView Window Decoration.
      * 
-     * Win32 API - Not Implemented
+     * Win32 API and GTK API - Fully working 
      * 
-     * Gtk API - Implemented fully working
-     * 
-     * Cocoa API - Not Implemented (Not maintained by me)
+     * Cocoa API - Not Implemented
      */
     public function setWindowDecoration(state:Bool):Void
     {
@@ -413,11 +407,9 @@ class WebView
     /**
      * Used to set the WebView Window TopMost.
      * 
-     * Win32 API - Not Implemented
+     * Win32 API and GTK API - Fully working
      * 
-     * Gtk API - Implemented fully working
-     * 
-     * Cocoa API - Not Implemented (Not maintained by me)
+     * Cocoa API - Not Implemented
      */
     public function setWindowTopmost(state:Bool):Void
     {
@@ -427,11 +419,7 @@ class WebView
     /**
      * Used to set the WebView Window Taskbar Visibility.
      * 
-     * Win32 API - Not Implemented
-     * 
-     * Gtk API - Implemented fully working
-     * 
-     * Cocoa API - Not Implemented (Not maintained by me)
+     * Pending removal since this feature is useless and doesnt behave as expected on both platforms
      */
     public function setWindowTaskbarHint(state:Bool):Void
     {
@@ -441,11 +429,11 @@ class WebView
     /**
      * Used to add a destroy signal and set the WebView Window internal destroyed flag.
      * 
-     * Win32 API - Not Implemented
+     * Win32 API - Not needed
      * 
-     * Gtk API - Implemented fully working
+     * Gtk API - Fully working
      * 
-     * Cocoa API - Not Implemented (Not maintained by me)
+     * Cocoa API - Not Implemented
      */
     public function addDestroySignal():Void
     {
@@ -455,27 +443,23 @@ class WebView
     /**
      * Used to get if there are pending events.
      * 
-     * Win32 API - Not Implemented
+     * Win32 API and GTK API - Fully working (Win32 pending fix for standalone loop)
      * 
-     * Gtk API - Implemented fully working
-     * 
-     * Cocoa API - Not Implemented (Not maintained by me)
+     * Cocoa API - Not Implemented
      */
     public function eventsPending():Bool
     {
-        return Externs.events_pending();
+        return Externs.events_pending(handle);
     }
 
     /**
      * Used to run a Main Loop Iteration to process events and more.
      * 
-     * State should be true if you want GTK+ to block if no events are pending.
+     * State should be true if you want GTK+ to block if no events are pending. (Not taken into account on Win32)
      * 
-     * Win32 API - Not Implemented
+     * Win32 API and GTK API - Fully working (Win32 pending fix for standalone loop)
      * 
-     * Gtk API - Implemented fully working
-     * 
-     * Cocoa API - Not Implemented (Not maintained by me)
+     * Cocoa API - Not Implemented
      */
     public function process(state:Bool = false):Void
     {
@@ -485,13 +469,7 @@ class WebView
     /**
      * Used to check if the WebView Window is still open.
      * 
-     * State should be true if you want GTK+ to block if no events are pending.
-     * 
-     * Win32 API - Not Implemented
-     * 
-     * Gtk API - Implemented fully working
-     * 
-     * Cocoa API - Not Implemented (Not maintained by me)
+     * It uses the same variable behind the scenes, it just the checks that are different for each platform.
      */
     public function isOpen():Bool
     {
@@ -592,7 +570,7 @@ private extern class Externs
     public static function add_destroy_signal(w:WindowPtr):Void;
 
     @:native("events_pending")
-    public static function events_pending():Bool;
+    public static function events_pending(w:WindowPtr):Bool;
 
     @:native("run_main_iteration")
     public static function run_main_iteration(state:Bool):Void;
