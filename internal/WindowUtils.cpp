@@ -122,32 +122,6 @@ void set_window_topmost(webview_t w, bool state)
     SetWindowPos((HWND)webview_get_window(w), (state) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 }
 
-// Sadly on Windows none of the expected behaviour from Linux occurs, in order to hide a window from the taskbar
-// Is to make it owned by the parent window n some more stuff
-// It might get deleted on both targets since it doesn't behave as expected
-// https://stackoverflow.com/questions/30933219/hide-window-from-taskbar-without-using-ws-ex-toolwindow?rq=3
-// https://stackoverflow.com/questions/7219063/win32-how-to-hide-3rd-party-windows-in-taskbar-by-hwnd
-// https://stackoverflow.com/questions/42554842/hide-show-the-application-icon-of-the-windows-taskbar-labview-winapi
-void set_window_taskbar_hint(webview_t w, bool state)
-{
-    HWND wPtr = (HWND)webview_get_window(w);
-
-    LONG lExStyle = GetWindowLong(wPtr, GWL_EXSTYLE);
-
-    if (state)
-    {
-        lExStyle |= (WS_EX_APPWINDOW | WS_EX_TOOLWINDOW);
-        SetWindowLongPtrW(wPtr, GWLP_HWNDPARENT, 0);
-    }
-    else
-    {
-        lExStyle &= ~(WS_EX_APPWINDOW | WS_EX_TOOLWINDOW);
-        SetWindowLongPtrW(wPtr, GWLP_HWNDPARENT, reinterpret_cast<LONG_PTR>(find_main_window()));
-    }
-
-    SetWindowLong(wPtr, GWL_EXSTYLE, lExStyle);
-}
-
 void add_destroy_signal(webview_t w)
 {
     return;
@@ -214,11 +188,6 @@ void set_window_decoration(webview_t w, bool state) // https://docs.gtk.org/gtk3
 void set_window_topmost(webview_t w, bool state) // https://docs.gtk.org/gtk3/method.Window.set_keep_above.html called topmost for standards
 {
     gtk_window_set_keep_above(GTK_WINDOW(webview_get_window(w)), (gboolean)state);
-}
-
-void set_window_taskbar_hint(webview_t w, bool state) // https://docs.gtk.org/gtk3/method.Window.set_skip_taskbar_hint.html
-{
-    gtk_window_set_skip_taskbar_hint(GTK_WINDOW(webview_get_window(w)), (gboolean)state);
 }
 
 void add_destroy_signal(webview_t w) // Should be called to add the signal listener for window destroy, thus being able to check if the window is destroyed

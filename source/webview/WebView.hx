@@ -417,16 +417,6 @@ class WebView
     }
 
     /**
-     * Used to set the WebView Window Taskbar Visibility.
-     * 
-     * Pending removal since this feature is useless and doesnt behave as expected on both platforms
-     */
-    public function setWindowTaskbarHint(state:Bool):Void
-    {
-        Externs.set_window_taskbar_hint(handle, state);
-    }
-
-    /**
      * Used to add a destroy signal and set the WebView Window internal destroyed flag.
      * 
      * Win32 API - Not needed
@@ -498,12 +488,14 @@ private extern class Externs
     @:native('webview_terminate')
     public static function webview_terminate(w:WindowPtr):Void;
 
+    // Can be found on WebViewHelper.cpp
     @:native('hx_webview_dispatch')
     public static function webview_dispatch(w:WindowPtr, fn:DispatchFunc, arg:Dynamic):Void;
 
     @:native('webview_get_window')
     public static function webview_get_window(w:WindowPtr):WindowPtr;
 
+    // Can be found on WebViewHelper.cpp
     // Returns a native handle of choice.
     // @since 0.11
     @:native('hx_get_native_handle')
@@ -512,6 +504,7 @@ private extern class Externs
     @:native('webview_set_title')
     public static function webview_set_title(w:WindowPtr, title:ConstCharStar):Void;
 
+    // Can be found on WebViewHelper.cpp
     @:native('hx_set_size')
     public static function webview_set_size(w:WindowPtr, width:Int, height:Int, hints:WebViewSizeHint):Void;
 
@@ -527,6 +520,7 @@ private extern class Externs
     @:native('webview_eval')
     public static function webview_eval(w:WindowPtr, js:ConstCharStar):Void;
 
+    // Can be found on WebViewHelper.cpp
     @:native('hx_webview_bind')
     public static function webview_bind(w:WindowPtr, name:ConstCharStar, fn:BindFunc, arg:Dynamic):Void;
 
@@ -546,25 +540,17 @@ private extern class Externs
 
     /// WINDOWUTILS.H
 
-    // Used to retrieve the Window Position
     @:native("get_window_position")
     public static function get_window_position(w:WindowPtr):{x:Int, y:Int};
 
-    // Used to set the Window Position
     @:native('set_window_position')
     public static function set_window_position(w:WindowPtr, newX:Int, newY:Int):Void;
 
-    // Used to set the Window Decoration
     @:native("set_window_decoration")
     public static function set_window_decoration(w:WindowPtr, state:Bool):Void;
 
-    // Used to set the Window as TopMost (Keep the Window on the top of all applications)
     @:native("set_window_topmost")
     public static function set_window_topmost(w:WindowPtr, state:Bool):Void;
-
-    // Used to set the Window Taskbar Visibility
-    @:native("set_window_taskbar_hint")
-    public static function set_window_taskbar_hint(w:WindowPtr, state:Bool):Void;
 
     @:native("add_destroy_signal")
     public static function add_destroy_signal(w:WindowPtr):Void;
