@@ -76,6 +76,9 @@ typedef DispatchFunc = (w:WindowPtr, arg:Dynamic)->Void;
 typedef BindFunc = (seq:String, req:String, arg:Dynamic)->Void;
 
 // Wrapper class for the externs
+#if (!display && windows)
+@:build(webview.Macros.copyDLLs())
+#end
 class WebView
 {
     /// Window Properties
