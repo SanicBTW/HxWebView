@@ -76,23 +76,7 @@ Dynamic get_window_position(webview_t w)
 
 void set_window_position(webview_t w, int newX, int newY)
 {
-    HWND wPtr = (HWND)webview_get_window(w);
-
-    RECT rect;
-    BOOL res = GetClientRect(wPtr, &rect);
-    if (res == 0)
-    {
-        // This is kind of dumb ngl
-        rect = {
-            0, // left
-            0, // top
-            0, // right
-            0 // bottom
-        };
-    }
-    long width = rect.right - rect.left;
-    long height = rect.bottom - rect.top;
-    MoveWindow(wPtr, newX, newY, width, height, FALSE);
+    SetWindowPos((HWND)webview_get_window(w), NULL, newX, newY, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
 }
 
 // https://stackoverflow.com/a/2400467
@@ -127,11 +111,15 @@ void add_destroy_signal(webview_t w)
     return;
 }
 
-// FIRST TRY BABY WOOHOO - nvm - ok so it really works except when trying to run without another loop on top so uhhh i gotta look into it
+// FIRST TRY BABY WOOHOO - nvm
+// ok so it really works except when trying to run without another loop on top so uhhh i gotta look into it - fixed it by removing the other flag
+// but is slow af when trying to dispatch binds tf, ill see if i can mess around with GetQueueStatus
+// get queue status didnt work out but now it works, had to put a null ptr or smth null in the hwnd since its optional
+// now gets all the queue messages n shit, cool shit
 bool events_pending(webview_t w)
 {
     MSG msg;
-    return (bool)PeekMessageW(&msg, (HWND)webview_get_window(w), 0, 0, PM_NOREMOVE | PM_QS_POSTMESSAGE);
+    return PeekMessageW(&msg, nullptr, 0, 0, PM_NOREMOVE) != 0;
 }
 
 void run_main_iteration(bool state)

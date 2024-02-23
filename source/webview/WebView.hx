@@ -87,6 +87,8 @@ class WebView
     private var y:Int = 0;
     private var width:Int = 0;
     private var height:Int = 0;
+    private var decorated:Bool = true;
+    private var topmost:Bool = false;
 
     /// WEBVIEW
 
@@ -404,6 +406,7 @@ class WebView
      */
     public function setWindowDecoration(state:Bool):Void
     {
+        decorated = state;
         Externs.set_window_decoration(handle, state);
     }
 
@@ -416,6 +419,7 @@ class WebView
      */
     public function setWindowTopmost(state:Bool):Void
     {
+        topmost = state;
         Externs.set_window_topmost(handle, state);
     }
 

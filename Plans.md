@@ -10,8 +10,9 @@
 # Done so far
 
 - Automatically add NO_PRECOMPILED_HEADERS to Linux Builds (*)
-- More control over the GTK Main Loop including Win32 Message Queue (**)
+- More control over the GTK Main Loop including Win32 Message Queue
 - Macros to copy required Windows DLLs to the output directory (*)
+- Fixed Window resizing when changing the position of the Window (Win32 Only)
 
 # Legend
 

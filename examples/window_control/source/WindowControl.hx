@@ -91,13 +91,7 @@ class WindowControl
             w.resolve(seq, 0, "");
         }, null);
 
-        while(w.isOpen())
-        {
-            if (w.eventsPending())
-            {
-                w.process();
-            }
-        }
+        w.run();
         w.destroy();
     }
 }
