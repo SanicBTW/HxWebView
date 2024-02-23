@@ -9,17 +9,6 @@ import haxe.macro.Context;
 
 using haxe.macro.PositionTools;
 
-typedef WrongField =
-{
-    var name:String;
-    var atPos:String;
-    var ofType:String;
-    var ?exc:Null<String>;
-}
-
-// Since I cannot import the webview package
-typedef MBindFunc = (seq:String, req:String, arg:Dynamic)->Void;
-
 class Macros
 {
     // This macro will only run on Windows targets to copy over the EmbeddedBrowserWebView DLL

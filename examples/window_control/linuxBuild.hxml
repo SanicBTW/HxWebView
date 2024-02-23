@@ -11,8 +11,8 @@
 --library HxWebView
 
 --class-path source
---main Decoration
+--main WindowControl
 --cpp bin/cpp/
 
 --cmd cd bin/cpp/
---cmd ./Decoration
+--cmd ./WindowControl
