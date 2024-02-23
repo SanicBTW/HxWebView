@@ -73,8 +73,8 @@ class PlayState extends FlxState
 
 		spinning.angle += Math.sin((Math.PI * (360 * elapsed)) / 360) * 50;
 
-		// The window won't close until the Main Window does (Will fix this later)
-		// It will run at about 12FPS
+		// The window won't close until the Main Window does (Only on Linux)
+		// It will run at about 12FPS (Only on Linux), runs at 60FPS on Windows
 		if (w.isOpen())
 			if (w.eventsPending())
 				w.process();

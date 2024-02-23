@@ -440,7 +440,7 @@ class WebView
     /**
      * Used to get if there are pending events.
      * 
-     * Win32 API and GTK API - Fully working (Win32 pending fix for standalone loop)
+     * Win32 API and GTK API - Fully working
      * 
      * Cocoa API - Not Implemented
      */
@@ -454,7 +454,9 @@ class WebView
      * 
      * State should be true if you want GTK+ to block if no events are pending. (Not taken into account on Win32)
      * 
-     * Win32 API and GTK API - Fully working (Win32 pending fix for standalone loop)
+     * This will run at 60FPS on Win32 and around 12FPS on GTK, pending fix for Linux.
+     * 
+     * Win32 API and GTK API - Fully working
      * 
      * Cocoa API - Not Implemented
      */
