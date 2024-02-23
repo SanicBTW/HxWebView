@@ -89,6 +89,7 @@ class WebView
     private var height:Int = 0;
     private var decorated:Bool = true;
     private var topmost:Bool = false;
+    private var shouldAllowDestroy:Bool = true; // Only used in Linux
 
     /// WEBVIEW
 
@@ -133,7 +134,7 @@ class WebView
      */
     public function destroy():Void
     {
-        if (handle == null)
+        if (handle == null #if linux || !shouldAllowDestroy #end)
             return;
 
         Externs.webview_destroy(handle);
@@ -205,8 +206,7 @@ class WebView
         if (handle == null)
             return null;
 
-        return null;
-        //return Externs.webview_get_native_handle(handle, kind);
+        return Externs.webview_get_native_handle(handle, kind);
     }
 
     /**
@@ -434,6 +434,7 @@ class WebView
      */
     public function addDestroySignal():Void
     {
+        shouldAllowDestroy = false;
         Externs.add_destroy_signal(handle);
     }
 

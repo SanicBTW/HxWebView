@@ -180,9 +180,10 @@ void set_window_topmost(webview_t w, bool state) // https://docs.gtk.org/gtk3/me
 
 void add_destroy_signal(webview_t w) // Should be called to add the signal listener for window destroy, thus being able to check if the window is destroyed
 {
-    g_signal_connect(GTK_WINDOW(webview_get_window(w)), "delete_event", G_CALLBACK(+[](GtkWidget *, gpointer arg)
+    g_signal_connect(GTK_WINDOW(webview_get_window(w)), "delete-event", G_CALLBACK(+[](GtkWidget *, gpointer arg)
     {
         is_destroyed = true;
+        return FALSE;
     }), NULL);
 }
 
