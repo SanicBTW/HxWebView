@@ -4,11 +4,12 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import lime.app.Application;
 import webview.WebView;
 
 class PlayState extends FlxState
 {
-	var w:WebView = new WebView(#if debug true #end);
+	var w:WebView;
 	private var head:FlxText;
 	private var body:FlxText;
 	private var spinning:FlxSprite;
@@ -45,18 +46,53 @@ class PlayState extends FlxState
 	{
 		// When running on a thread using the manual loop, the game will eventually stop updating, dispatching a bind (?) will start the update cycle again
 		// This behaviour is kind of weird
-		w.setTitle("HxWebView x HaxeFlixel - WebView");
-		w.setSize(480, 320, NONE);
-		w.setHTML(html);
-		w.addDestroySignal();
+		// Maybe this is a dirty workaround but its somehow working for now so we can't really complain about it :sob:
 
-		w.bind("callOnGame", (seq, req, arg) ->
+		sys.thread.Thread.createWithEventLoop(() ->
 		{
-			var args:Array<String> = req.substring(1, req.length - 1).split(",");
-			body.text = formatString(args[0]);
+			w = new WebView(#if debug true #end);
+			w.setTitle("HxWebView x HaxeFlixel - WebView");
+			w.setSize(480, 320, NONE);
+			w.setHTML(html);
+			w.addDestroySignal();
 
-			w.resolve(seq, 0, "");
-		}, null);
+			Application.current.window.onClose.add(() ->
+			{
+				if (w != null)
+				{
+					w.destroy();
+					w = null;
+				}
+			});
+
+			w.bind("callOnGame", (seq, req, arg) ->
+			{
+				var args:Array<String> = req.substring(1, req.length - 1).split(",");
+				body.text = formatString(args[0]);
+				w.resolve(seq, 0, "");
+			}, null);
+
+			while (true)
+			{
+				if (w.isOpen())
+				{
+					// To keep the Main Thread active and never stop freezing (?)
+					sys.thread.Thread.processEvents();
+					if (w.eventsPending())
+						w.process();
+				}
+				else
+					break;
+			}
+
+			if (w != null)
+			{
+				w.destroy();
+				w = null;
+			}
+
+			return;
+		});
 
 		add(spinning = new FlxSprite(0, 0).makeGraphic(100, 100, FlxColor.WHITE));
 		spinning.screenCenter();
@@ -72,12 +108,6 @@ class PlayState extends FlxState
 		super.update(elapsed);
 
 		spinning.angle += Math.sin((Math.PI * (360 * elapsed)) / 360) * 50;
-
-		// The window won't close until the Main Window does (Only on Linux)
-		// It will run at about 12FPS (Only on Linux), runs at 60FPS on Windows
-		if (w.isOpen())
-			if (w.eventsPending())
-				w.process();
 	}
 
 	// Used to format arguments passed from the WebView

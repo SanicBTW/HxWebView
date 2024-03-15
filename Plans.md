@@ -6,6 +6,7 @@
 - Rewrite the whole codebase
 - Full control over the WebView owned Window (***)
     - Pending window state controls (minimize, restore, maximize)
+    - Pending changing window icon
 
 # Done so far
 
@@ -14,7 +15,7 @@
 - Macros to copy required Windows DLLs to the output directory (*)
 - Fixed Window resizing when changing the position of the Window (Win32 Only)
 - Window Examples will be unified in one called "Window Control"
-- Fixed passing arguments through binding
+- Fixed passing arguments through binding (*)
 
 # Legend
 
