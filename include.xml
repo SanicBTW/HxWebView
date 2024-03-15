@@ -20,6 +20,11 @@
         <assets path="internal/windows/EBWebView/x86/" rename="EBWebView/x86/" if="HXCPP_M32" />
     </section>
 
+    <!-- Thanks to Jonnycat -->
+    <section if="macos"> 
+        <vflag name="-framework" value="WebKit" /> <!-- Using the framework instead -->
+    </section>
+
     <files id="haxe">
         <compilerflag value="-I${haxelib:HxWebView}/internal/webview" />
         <compilerflag value="-I${haxelib:HxWebView}" />

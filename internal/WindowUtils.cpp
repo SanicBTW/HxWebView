@@ -15,42 +15,6 @@
 bool is_destroyed = false;
 
 #if defined(_WIN32)
-// Get the Parent/Main Window from current process, origin https://stackoverflow.com/a/21767578
-struct HANDLE_DATA
-{
-    DWORD process_id;
-    HWND window_handle;
-};
-
-HWND find_main_window();
-BOOL CALLBACK enum_windows_callback(HWND handle, LPARAM lParam);
-BOOL is_main_window(HWND handle);
-
-HWND find_main_window()
-{
-    HANDLE_DATA data;
-    data.process_id = GetCurrentProcessId();
-    data.window_handle = 0;
-    EnumWindows(enum_windows_callback, (LPARAM)&data);
-    return data.window_handle;
-}
-
-BOOL CALLBACK enum_windows_callback(HWND handle, LPARAM lParam)
-{
-    HANDLE_DATA& data = *(HANDLE_DATA*)lParam;
-    DWORD process_id;
-    GetWindowThreadProcessId(handle, &process_id);
-    if (data.process_id != process_id || !is_main_window(handle))
-        return TRUE;
-    data.window_handle = handle;
-    return FALSE;
-}
-
-BOOL is_main_window(HWND handle)
-{
-    return GetWindow(handle, GW_OWNER) == (HWND)0 && IsWindowVisible(handle);
-}
-
 // Make DPI Aware
 Dynamic get_window_position(webview_t w)
 {
@@ -139,16 +103,9 @@ void run_main_iteration(bool state)
 #endif
 
 #if defined(HX_LINUX)
-Dynamic find_main_window(); //TODO
-
 // https://docs.gtk.org/gtk3/index.html?q=gtk_window_set_
 // https://docs.gtk.org/gtk3/index.html?q=gtk_window_get_
 // https://docs.gtk.org/gtk3/index.html?q=gtk_main
-
-Dynamic find_main_window()
-{
-    return 0;
-}
 
 Dynamic get_window_position(webview_t w) // https://docs.gtk.org/gtk3/method.Window.get_position.html
 {

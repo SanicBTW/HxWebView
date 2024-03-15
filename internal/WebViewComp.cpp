@@ -69,7 +69,7 @@ void hx_webview_bind(webview_t w, const char *name, hxBindFunc fn, Dynamic farg)
         name, 
         [=](const std::string &seq, const std::string &req, void *arg)
         {
-            fn(String::create(seq.c_str()), String::create(req.c_str()), static_cast<Dynamic>(&arg));
+            fn(String::create(seq.c_str()), String::create(req.c_str()), farg);
         }, 
-        static_cast<void *>(&farg));
+        nullptr);
 }

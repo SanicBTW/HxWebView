@@ -1,11 +1,11 @@
 # Plans for HxWebView 0.1.0
 
-- Window Examples will be unified in one called "WebView Window Manipulation" (***)
+- MacOS Support (Working with Jonnycat)
 - Cleaner code
 - More features
-- Macros for converting a normal function into a bind automatically (Might need help with this one or just delay it)
 - Rewrite the whole codebase
-- Full control over the WebView owned Window
+- Full control over the WebView owned Window (***)
+    - Pending window state controls (minimize, restore, maximize)
 
 # Done so far
 
@@ -13,6 +13,8 @@
 - More control over the GTK Main Loop including Win32 Message Queue
 - Macros to copy required Windows DLLs to the output directory (*)
 - Fixed Window resizing when changing the position of the Window (Win32 Only)
+- Window Examples will be unified in one called "Window Control"
+- Fixed passing arguments through binding
 
 # Legend
 

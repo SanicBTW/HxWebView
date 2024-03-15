@@ -364,16 +364,6 @@ class WebView
     /// WINDOW UTILS
 
     /**
-     * Used to get the Main Window from the current process.
-     * 
-     * This behaves almost like webview.getWindow() if the WebView is a standalone Window.
-     */
-    public function getMainWindow():WindowPtr
-    {
-        return Externs.find_main_window();
-    }
-
-    /**
      * Used to get the WebView Window Position.
      * 
      * Win32 API and GTK API - Fully working
@@ -498,14 +488,14 @@ private extern class Externs
     @:native('webview_terminate')
     public static function webview_terminate(w:WindowPtr):Void;
 
-    // Can be found on WebViewHelper.cpp
+    // Can be found on WebViewComp.cpp
     @:native('hx_webview_dispatch')
     public static function webview_dispatch(w:WindowPtr, fn:DispatchFunc, arg:Dynamic):Void;
 
     @:native('webview_get_window')
     public static function webview_get_window(w:WindowPtr):WindowPtr;
 
-    // Can be found on WebViewHelper.cpp
+    // Can be found on WebViewComp.cpp
     // Returns a native handle of choice.
     // @since 0.11
     @:native('hx_get_native_handle')
@@ -514,7 +504,7 @@ private extern class Externs
     @:native('webview_set_title')
     public static function webview_set_title(w:WindowPtr, title:ConstCharStar):Void;
 
-    // Can be found on WebViewHelper.cpp
+    // Can be found on WebViewComp.cpp
     @:native('hx_set_size')
     public static function webview_set_size(w:WindowPtr, width:Int, height:Int, hints:WebViewSizeHint):Void;
 
@@ -530,7 +520,7 @@ private extern class Externs
     @:native('webview_eval')
     public static function webview_eval(w:WindowPtr, js:ConstCharStar):Void;
 
-    // Can be found on WebViewHelper.cpp
+    // Can be found on WebViewComp.cpp
     @:native('hx_webview_bind')
     public static function webview_bind(w:WindowPtr, name:ConstCharStar, fn:BindFunc, arg:Dynamic):Void;
 
@@ -540,7 +530,7 @@ private extern class Externs
     @:native('webview_return')
     public static function webview_return(w:WindowPtr, seq:ConstCharStar, status:Int, result:ConstCharStar):Void;
 
-    // Can be found on WebViewHelper.cpp
+    // Can be found on WebViewComp.cpp
     // Get the library's version information.
     // @since 0.10
     @:native('hx_webview_version')
@@ -573,10 +563,6 @@ private extern class Externs
 
     @:native("is_open")
     public static function is_open():Bool;
-
-    // Used to get the Main Window from the process, this behaves almost like webview_get_window if the WebView is a standalone Window
-    @:native('find_main_window')
-    public static function find_main_window():WindowPtr;
 
     /// END OF WINDOWUTILS.H EXTERNS
 }
