@@ -50,6 +50,19 @@ void *hx_get_native_handle(webview_t w, int kind)
     return nullptr;
 }
 
+// Fix for webview_set_size
+// Had to do the same approach as hx_get_native_handle, I don't know how to cast the hx enum to the c enum
+void hx_set_size(webview_t w, int width, int height, int hints)
+{
+    switch (hints)
+    {
+        case 0: webview_set_size(w, width, height, WEBVIEW_HINT_NONE);
+        case 1: webview_set_size(w, width, height, WEBVIEW_HINT_MIN);
+        case 2: webview_set_size(w, width, height, WEBVIEW_HINT_MAX);
+        case 3: webview_set_size(w, width, height, WEBVIEW_HINT_FIXED);
+    }
+}
+
 // Wrapper for webview_dispatch
 using hxDispatchFunc = std::function<void(webview_t, Dynamic)>;
 
@@ -67,55 +80,7 @@ void hx_webview_bind(webview_t w, const char *name, hxBindFunc fn, Dynamic farg)
         name, 
         [=](const std::string &seq, const std::string &req, void *arg)
         {
-            fn(String::create(seq.c_str()), String::create(req.c_str()), static_cast<Dynamic>(&arg));
+            fn(String::create(seq.c_str()), String::create(req.c_str()), farg);
         }, 
-        static_cast<void *>(&farg));
+        nullptr);
 }
-
-// Get the Parent/Main Window from current process, origin https://stackoverflow.com/a/21767578
-#if defined(_WIN32)
-struct HANDLE_DATA
-{
-    DWORD process_id;
-    HWND window_handle;
-};
-
-HWND find_main_window();
-BOOL CALLBACK enum_windows_callback(HWND handle, LPARAM lParam);
-BOOL is_main_window(HWND handle);
-
-HWND find_main_window()
-{
-    HANDLE_DATA data;
-    data.process_id = GetCurrentProcessId();
-    data.window_handle = 0;
-    EnumWindows(enum_windows_callback, (LPARAM)&data);
-    return data.window_handle;
-}
-
-BOOL CALLBACK enum_windows_callback(HWND handle, LPARAM lParam)
-{
-    HANDLE_DATA& data = *(HANDLE_DATA*)lParam;
-    DWORD process_id;
-    GetWindowThreadProcessId(handle, &process_id);
-    if (data.process_id != process_id || !is_main_window(handle))
-        return TRUE;
-    data.window_handle = handle;
-    return FALSE;
-}
-
-BOOL is_main_window(HWND handle)
-{
-    return GetWindow(handle, GW_OWNER) == (HWND)0 && IsWindowVisible(handle);
-}
-#endif
-
-// TODO
-#if defined(HX_LINUX)
-Dynamic find_main_window();
-
-Dynamic find_main_window()
-{
-    return 0;
-}
-#endif

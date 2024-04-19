@@ -38,7 +38,7 @@ extern class WVExterns
     @:native('webview_set_title')
     private static function webview_set_title(w:WindowPtr, title:ConstCharStar):Void;
 
-    @:native('webview_set_size')
+    @:native('hx_set_size')
     private static function webview_set_size(w:WindowPtr, width:Int, height:Int, hints:WebViewSizeHint):Void;
 
     @:native('webview_navigate')
@@ -67,9 +67,4 @@ extern class WVExterns
     // @since 0.10
     @:native('hx_webview_version')
     private static function webview_version():WebViewInfo;
-
-    // Can be found on WebViewHelper.cpp
-    // Used to get the Main Window from the process, this behaves almost like webview_get_window if the WebView is a standalone Window
-    @:native('find_main_window')
-    private static function find_main_window():WindowPtr;
 }
