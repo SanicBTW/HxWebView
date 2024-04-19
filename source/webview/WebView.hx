@@ -5,6 +5,9 @@ import cpp.Pointer;
 import cpp.Void as CVoid;
 
 // Wrapper class for the externs
+#if (!display && windows)
+@:build(webview.Macros.copyDLLs())
+#end
 class WebView
 {
     private var handle:Null<WindowPtr> = null;

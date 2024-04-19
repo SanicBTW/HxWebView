@@ -10,12 +10,10 @@
 
     <section if="HXCPP_M64">
         <copyFile name="WebView2Loader.dll" from="${haxelib:HxWebView}/internal/windows/x64" toolId="exe" overwrite="true" />
-        <copyFile name="EmbeddedBrowserWebView.dll" from="${haxelib:HxWebView}/internal/windows/x64" toolId="exe" overwrite="true" />
     </section>
 
     <section if="HXCPP_M32">
         <copyFile name="WebView2Loader.dll" from="${haxelib:HxWebView}/internal/windows/x86" toolId="exe" overwrite="true" />
-        <copyFile name="EmbeddedBrowserWebView.dll" from="${haxelib:HxWebView}/internal/windows/x86" toolId="exe" overwrite="true" />
     </section>
 
     <target id="haxe">
