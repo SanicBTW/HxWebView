@@ -18,7 +18,7 @@ haxelib install HxWebView
 or with git for the latest potentially unstable updates.
 
 ```
-haxelib git HxWebView https://github.com/SanicBTW/HxWebView.git
+haxelib git HxWebView https://github.com/SanicBTW/HxWebView.git dev-0.1.0
 ```
 
 ## Linux Usage
