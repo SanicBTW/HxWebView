@@ -41,3 +41,5 @@ Check out the [examples folder](https://github.com/SanicBTW/HxWebView/tree/maste
 
 --- 
 Using [15/02](https://github.com/webview/webview/commit/c4833a42d30fecac6d8cbe5e4932dd4eed6bcab3) header file
+
+Using [1.0.2420.47](https://www.nuget.org/packages/Microsoft.Web.WebView2/1.0.2420.47) WebView2 SDK and [124.0.2478.51 Fixed Version](https://developer.microsoft.com/en-us/microsoft-edge/webview2/?form=MA13LH&ch=1) WebView2 Runtime for the Embedded WebView DLLs
