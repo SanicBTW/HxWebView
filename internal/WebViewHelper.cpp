@@ -50,19 +50,6 @@ void *hx_get_native_handle(webview_t w, int kind)
     return nullptr;
 }
 
-// Fix for webview_set_size
-// Had to do the same approach as hx_get_native_handle, I don't know how to cast the hx enum to the c enum
-void hx_set_size(webview_t w, int width, int height, int hints)
-{
-    switch (hints)
-    {
-        case 0: webview_set_size(w, width, height, WEBVIEW_HINT_NONE);
-        case 1: webview_set_size(w, width, height, WEBVIEW_HINT_MIN);
-        case 2: webview_set_size(w, width, height, WEBVIEW_HINT_MAX);
-        case 3: webview_set_size(w, width, height, WEBVIEW_HINT_FIXED);
-    }
-}
-
 // Wrapper for webview_dispatch
 using hxDispatchFunc = std::function<void(webview_t, Dynamic)>;
 

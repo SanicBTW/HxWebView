@@ -38,7 +38,7 @@ extern class WVExterns
     @:native('webview_set_title')
     private static function webview_set_title(w:WindowPtr, title:ConstCharStar):Void;
 
-    @:native('hx_set_size')
+    @:native('webview_set_size')
     private static function webview_set_size(w:WindowPtr, width:Int, height:Int, hints:WebViewSizeHint):Void;
 
     @:native('webview_navigate')
