@@ -4,8 +4,8 @@
     "license": "MIT",
     "tags": ["haxe", "webview", "cpp", "binds", "bindings", "native", "desktop", "cross"],
     "description": "Haxe cross-platform desktop bindings for webview.",
-    "version": "0.0.7",
-    "releasenote": "Fixed Lime support, update DLLs",
+    "version": "0.0.8",
+    "releasenote": "Fixed macro not copying DLLs properly.",
     "contributors": ["SanicBTW", "Vortex"],
     "classPath": "source",
     "dependencies": {
